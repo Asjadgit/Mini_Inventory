@@ -1,0 +1,19 @@
+{
+    "name": "asjad/inventory",
+    "description": "Mini Inventory System for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Asjad\\Inventory\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Asjad\\Inventory\\Providers\\InventoryServiceProvider"
+            ]
+        }
+    },
+    "require": {}
+}
