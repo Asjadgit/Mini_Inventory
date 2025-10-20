@@ -53,12 +53,7 @@ Perfect for small inventory management or as a boilerplate for Laravel + Vue hyb
 git clone https://github.com/Asjadgit/Mini_Inventory.git
 cd mini-inventory
 ```
-1. **Clone the repository**
 
-```bash
-git clone https://github.com/Asjadgit/Mini_Inventory.git
-cd mini-inventory
-```
 2. **Install PHP dependencies**
 
 ```bash
@@ -77,24 +72,25 @@ npm install
 cp .env.example .env
 ```
 
-4. **Generate application key**
+5. **Generate application key**
 
 ```bash
 php artisan key:generate
 ```
-4. **Run database migrations**
+6. **Run database migrations**
 
 ```bash
 php artisan migrate
 ```
-4. **Start Vite dev server**
+7. **Start Vite dev server**
 
 ```bash
 npm run start
 ```
-4. **Start Laravel server**
+8. **Start Laravel server**
 
 ```bash
 php artisan serve
 ```
+
 ✅ This is **complete, production-ready, and all-inclusive**. Anyone can follow it from cloning to running the app without missing steps.
