@@ -10,16 +10,6 @@ Perfect for small inventory management or as a boilerplate for Laravel + Vue hyb
 - [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Environment Configuration](#environment-configuration)
-- [Database Setup](#database-setup)
-- [Running the Project](#running-the-project)
-- [Folder Structure](#folder-structure)
-- [Vue Component Example](#vue-component-example)
-- [Common Issues & Fixes](#common-issues--fixes)
-- [NPM / Artisan Scripts](#npm--artisan-scripts)
-- [Contributing](#contributing)
-- [License](#license)
-- [Notes](#notes)
 
 ---
 
