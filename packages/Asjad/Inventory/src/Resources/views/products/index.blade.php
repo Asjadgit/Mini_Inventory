@@ -1,11 +1,12 @@
 @extends('inventory::layouts.app')
 
 @section('content')
-<div class="w-full mx-auto">
-    <!-- Page Header -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">🧾 Product Inventory</h1>
-        <p class="text-gray-600">Manage and track your product inventory in real-time</p>
+    <div class="w-full mx-auto">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">🧾 Product Inventory</h1>
+            <p class="text-gray-600">Manage and track your product inventory in real-time</p>
+        </div>
     </div>
 
     <!-- Stats Overview -->
@@ -55,12 +56,11 @@
         <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mb-4"></div>
         <p class="text-gray-600">Loading products...</p>
     </div>
-</div>
 @endsection
 
 @pushOnce('scripts')
-<!-- Inline Vue template -->
-<script type="text/x-template" id="v-product-list-template">
+    <!-- Inline Vue template -->
+    <script type="text/x-template" id="v-product-list-template">
   <div>
     <!-- Table Header with Refresh Button -->
     <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
@@ -74,12 +74,7 @@
         <span v-else class="mr-2">🔄</span>
         Refresh
       </button>
-
-      <button class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
-        Add Product
-      </button>
     </div>
-
     <!-- Products Table -->
     <div class="overflow-x-auto">
       <table class="w-full">
@@ -131,106 +126,66 @@
   </div>
 </script>
 
-<!-- Register component and mount Vue -->
-<script type="module">
-    // Register component with enhanced functionality
-    window.app.component('v-product-list', {
-        template: '#v-product-list-template',
-        data() {
-            return {
-                products: [],
-                loading: false
-            };
-        },
-        methods: {
-            async fetchProducts() {
-                this.loading = true;
-                try {
-                    const response = await fetch('/inventory/products/list');
-                    const data = await response.json();
-                    this.products = data ?? [];
-                    this.updateStats();
-                } catch (error) {
-                    console.error('Failed to fetch products:', error);
-                    this.products = [];
-                } finally {
-                    this.loading = false;
-                }
+    <!-- Register component and mount Vue -->
+    <script type="module">
+        // Register component
+        window.app.component('v-product-list', {
+            template: '#v-product-list-template',
+            data() {
+                return {
+                    products: [],
+                    loading: false,
+                };
             },
-            getStockLevelClass(stock) {
-                if (stock === 0) return 'bg-red-100 text-red-800';
-                if (stock < 10) return 'bg-yellow-100 text-yellow-800';
-                return 'bg-green-100 text-green-800';
-            },
-            getStatusClass(stock) {
-                if (stock === 0) return 'bg-red-100 text-red-800';
-                if (stock < 5) return 'bg-orange-100 text-orange-800';
-                return 'bg-green-100 text-green-800';
-            },
-            getStatusText(stock) {
-                if (stock === 0) return 'Out of Stock';
-                if (stock < 5) return 'Low Stock';
-                return 'In Stock';
-            },
-            formatPrice(price) {
-                return parseFloat(price).toFixed(2);
-            },
-            updateStats() {
-                // Update the stats cards
-                const totalProducts = this.products.length;
-                const inStock = this.products.filter(p => p.stock > 0).length;
-                const totalValue = this.products.reduce((sum, p) => sum + (p.price * p.stock), 0);
+            methods: {
+                async fetchProducts() {
+                    this.loading = true;
+                    try {
+                        const response = await fetch('/inventory/products/list');
+                        const data = await response.json();
+                        this.products = data ?? [];
+                        this.updateStats();
+                    } catch (error) {
+                        console.error('Failed to fetch products:', error);
+                        this.products = [];
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+                getStockLevelClass(stock) {
+                    if (stock === 0) return 'bg-red-100 text-red-800';
+                    if (stock < 10) return 'bg-yellow-100 text-yellow-800';
+                    return 'bg-green-100 text-green-800';
+                },
+                formatPrice(price) {
+                    return parseFloat(price).toFixed(2);
+                },
+                getStatusClass(stock) {
+                    if (stock === 0) return 'bg-red-100 text-red-800';
+                    if (stock < 5) return 'bg-orange-100 text-orange-800';
+                    return 'bg-green-100 text-green-800';
+                },
+                getStatusText(stock) {
+                    if (stock === 0) return 'Out of Stock';
+                    if (stock < 10) return 'Low Stock';
+                    return 'In Stock';
+                },
+                updateStats() {
+                    const totalProducts = this.products.length;
+                    const inStock = this.products.filter(p => p.stock > 0).length;
+                    const totalValue = this.products.reduce((sum,p) => sum + (p.price * p.stock),0);
 
-                document.getElementById('total-products').textContent = totalProducts;
-                document.getElementById('in-stock').textContent = inStock;
-                document.getElementById('total-value').textContent = '$' + totalValue.toFixed(2);
+                    document.getElementById('total-products').textContent = totalProducts;
+                    document.getElementById('in-stock').textContent = inStock;
+                    document.getElementById('total-value').textContent = totalValue;
+                },
+            },
+            mounted() {
+                this.fetchProducts();
             }
-        },
-        mounted() {
-            this.fetchProducts();
-        }
-    });
+        });
 
-    // ✅ Mount Vue AFTER component registration
-    // app.mount('#app');
-</script>
-
-<style>
-/* Additional custom styles */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-/* Smooth transitions for interactive elements */
-button, a {
-    transition: all 0.2s ease-in-out;
-}
-
-/* Custom scrollbar for table */
-.overflow-x-auto::-webkit-scrollbar {
-    height: 6px;
-}
-
-.overflow-x-auto::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-
-.overflow-x-auto::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 3px;
-}
-
-.overflow-x-auto::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-}
-</style>
+        // ✅ Mount Vue AFTER component registration
+        // app.mount('#app');
+    </script>
 @endPushOnce
