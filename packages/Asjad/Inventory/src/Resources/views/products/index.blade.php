@@ -1,130 +1,249 @@
 @extends('inventory::layouts.app')
 
 @section('content')
-    <div class="w-full mx-auto">
+    <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Page Header -->
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">🧾 Product Inventory</h1>
-            <p class="text-gray-600">Manage and track your product inventory in real-time</p>
-        </div>
-    </div>
-
-    <!-- Stats Overview -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="rounded-full bg-blue-100 p-3 mr-4">
-                    <span class="text-blue-600 text-xl">📦</span>
-                </div>
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Total Products</p>
-                    <p class="text-2xl font-bold text-gray-900" id="total-products">-</p>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div class="mb-4 sm:mb-0">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2 flex items-center">
+                        <span class="mr-3">🧾</span>
+                        Product Inventory
+                    </h1>
+                    <p class="text-gray-600 text-lg">Manage and track your product inventory in real-time</p>
                 </div>
             </div>
         </div>
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="rounded-full bg-green-100 p-3 mr-4">
-                    <span class="text-green-600 text-xl">🔄</span>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div
+                class="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-sm border border-blue-100 p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-md">
+                <div class="flex items-center">
+                    <div class="rounded-full bg-blue-100 p-3 mr-4 shadow-inner">
+                        <span class="text-blue-600 text-xl">📦</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600 mb-1">Total Products</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-products">-</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-sm font-medium text-gray-600">In Stock</p>
-                    <p class="text-2xl font-bold text-gray-900" id="in-stock">-</p>
+            </div>
+            <div
+                class="bg-gradient-to-br from-white to-green-50 rounded-xl shadow-sm border border-green-100 p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-md">
+                <div class="flex items-center">
+                    <div class="rounded-full bg-green-100 p-3 mr-4 shadow-inner">
+                        <span class="text-green-600 text-xl">🔄</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600 mb-1">In Stock</p>
+                        <p class="text-2xl font-bold text-gray-900" id="in-stock">-</p>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="bg-gradient-to-br from-white to-orange-50 rounded-xl shadow-sm border border-orange-100 p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-md">
+                <div class="flex items-center">
+                    <div class="rounded-full bg-orange-100 p-3 mr-4 shadow-inner">
+                        <span class="text-orange-600 text-xl">💰</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600 mb-1">Total Value</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-value">-</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="rounded-full bg-orange-100 p-3 mr-4">
-                    <span class="text-orange-600 text-xl">💰</span>
-                </div>
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Total Value</p>
-                    <p class="text-2xl font-bold text-gray-900" id="total-value">-</p>
-                </div>
-            </div>
+
+        <!-- Product List Component -->
+        <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <v-product-list></v-product-list>
         </div>
-    </div>
-
-    <!-- Product List Component -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <v-product-list></v-product-list>
-    </div>
-
-    <!-- Loading State -->
-    <div id="loading-state" class="hidden text-center py-12">
-        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mb-4"></div>
-        <p class="text-gray-600">Loading products...</p>
     </div>
 @endsection
 
 @pushOnce('scripts')
     <!-- Inline Vue template -->
     <script type="text/x-template" id="v-product-list-template">
-  <div>
-    <!-- Table Header with Refresh Button -->
-    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-      <h3 class="text-lg font-semibold text-gray-900">Product List</h3>
-      <button
-        @click="fetchProducts"
-        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
-        :disabled="loading"
-      >
-        <span v-if="loading" class="inline-block animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></span>
-        <span v-else class="mr-2">🔄</span>
-        Refresh
-      </button>
-    </div>
-    <!-- Products Table -->
-    <div class="overflow-x-auto">
-      <table class="w-full">
-        <thead class="bg-gray-50">
-          <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
-            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Stock Level</th>
-            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-if="products.length === 0 && !loading">
-            <td colspan="4" class="px-6 py-8 text-center">
-              <div class="text-gray-400 mb-2 text-4xl">📦</div>
-              <p class="text-gray-500 text-lg font-medium">No products found</p>
-              <p class="text-gray-400 text-sm mt-1">Add some products to get started</p>
-            </td>
-          </tr>
-          <tr v-for="p in products" :key="p.id" class="hover:bg-gray-50 transition-colors duration-150">
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm font-medium text-gray-900">@{{ p.name }}</div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center">
-              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
-                    :class="getStockLevelClass(p.stock)">
-                @{{ p.stock }}
-              </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">
-              $@{{ formatPrice(p.price) }}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center">
-              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
-                    :class="getStatusClass(p.stock)">
-                @{{ getStatusText(p.stock) }}
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <div>
+            <!-- Table Header with Actions -->
+            <div class="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900">Product List</h3>
+                        <p class="text-gray-500 text-sm mt-1">All your inventory items in one place</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button
+                            @click="fetchProducts"
+                            :disabled="loading"
+                            class="inline-flex items-center justify-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-sm"
+                        >
+                            <span v-if="loading" class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></span>
+                            <span v-else class="mr-2">🔄</span>
+                            Refresh
+                        </button>
 
-    <!-- Loading State -->
-    <div v-if="loading" class="px-6 py-8 text-center">
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mb-4"></div>
-      <p class="text-gray-600">Loading products...</p>
-    </div>
-  </div>
-</script>
+                        <button
+                            @click="showaddModal"
+                            class="inline-flex items-center justify-center px-5 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-4 focus:ring-green-200 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 shadow-sm"
+                        >
+                            <span class="mr-2">➕</span>
+                            Add Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                                Product Name
+                            </th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                                Stock Level
+                            </th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                                Price
+                            </th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr v-if="products.length === 0 && !loading">
+                            <td colspan="4" class="px-6 py-12 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <div class="text-gray-300 mb-4 text-6xl">📦</div>
+                                    <p class="text-gray-500 text-lg font-semibold mb-2">No products found</p>
+                                    <p class="text-gray-400 text-sm">Get started by adding your first product</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr
+                            v-for="p in products"
+                            :key="p.id"
+                            class="group transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-white hover:shadow-sm"
+                        >
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-4 shadow-inner">
+                                        <span class="text-blue-600 text-sm">📦</span>
+                                    </div>
+                                    <div class="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors duration-300">
+                                        @{{ p.name }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm transition-all duration-300 transform group-hover:scale-105"
+                                      :class="getStockLevelClass(p.stock)">
+                                    @{{ p.stock }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span class="text-sm font-semibold text-gray-900 bg-gradient-to-r from-gray-50 to-white px-3 py-1.5 rounded-lg shadow-inner">
+                                    $@{{ formatPrice(p.price) }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span
+                                    class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm transition-all duration-300 transform group-hover:scale-105"
+                                    :class="getStatusClass(p.stock)"
+                                >
+                                    @{{ getStatusText(p.stock) }}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add Product Modal -->
+            <div v-if="showModal">
+                <<div class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 p-4 transition-opacity duration-300">
+                <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 relative transform transition-all duration-300 scale-100 animate-fadeIn">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+                        <h2 class="text-2xl font-bold text-gray-900">Add New Product</h2>
+                        <button
+                            @click="closeModal"
+                            class="text-gray-400 hover:text-gray-600 text-2xl transition-colors duration-300 transform hover:scale-110 cursor-pointer"
+                        >
+                            ×
+                        </button>
+                    </div>
+
+                    <form>
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Product Name</label>
+                                <input
+                                    type="text"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
+                                    placeholder="Enter product name"
+                                    required
+                                >
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Stock Quantity</label>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
+                                    placeholder="Enter stock quantity"
+                                    required
+                                >
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Price ($)</label>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    step="0.01"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
+                                    placeholder="Enter price"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-200">
+                            <button
+                                type="button"
+                                @click="closeModal"
+                                class="px-6 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 rounded-xl hover:from-gray-300 hover:to-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm"
+                            >
+                                Save Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+
+            <!-- Loading State -->
+            <div v-if="loading" class="px-6 py-12 text-center">
+                <div class="flex flex-col items-center justify-center">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4 shadow-inner"></div>
+                    <p class="text-gray-600 font-semibold">Loading products...</p>
+                    <p class="text-gray-400 text-sm mt-1">Please wait while we fetch your inventory</p>
+                </div>
+            </div>
+        </div>
+    </script>
 
     <!-- Register component and mount Vue -->
     <script type="module">
@@ -135,6 +254,7 @@
                 return {
                     products: [],
                     loading: false,
+                    showModal: false,
                 };
             },
             methods: {
@@ -153,17 +273,21 @@
                     }
                 },
                 getStockLevelClass(stock) {
-                    if (stock === 0) return 'bg-red-100 text-red-800';
-                    if (stock < 10) return 'bg-yellow-100 text-yellow-800';
-                    return 'bg-green-100 text-green-800';
+                    if (stock === 0)
+                        return 'bg-gradient-to-r from-red-100 to-red-200 text-red-800 border border-red-200';
+                    if (stock < 10)
+                        return 'bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 border border-yellow-200';
+                    return 'bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-200';
                 },
                 formatPrice(price) {
                     return parseFloat(price).toFixed(2);
                 },
                 getStatusClass(stock) {
-                    if (stock === 0) return 'bg-red-100 text-red-800';
-                    if (stock < 5) return 'bg-orange-100 text-orange-800';
-                    return 'bg-green-100 text-green-800';
+                    if (stock === 0)
+                        return 'bg-gradient-to-r from-red-100 to-red-200 text-red-800 border border-red-200';
+                    if (stock < 5)
+                        return 'bg-gradient-to-r from-orange-100 to-orange-200 text-orange-800 border border-orange-200';
+                    return 'bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-200';
                 },
                 getStatusText(stock) {
                     if (stock === 0) return 'Out of Stock';
@@ -173,19 +297,89 @@
                 updateStats() {
                     const totalProducts = this.products.length;
                     const inStock = this.products.filter(p => p.stock > 0).length;
-                    const totalValue = this.products.reduce((sum,p) => sum + (p.price * p.stock),0);
+                    const totalValue = this.products.reduce((sum, p) => sum + (p.price * p.stock), 0);
 
                     document.getElementById('total-products').textContent = totalProducts;
                     document.getElementById('in-stock').textContent = inStock;
-                    document.getElementById('total-value').textContent = totalValue;
+                    document.getElementById('total-value').textContent = '$' + totalValue.toFixed(2);
+                },
+                showaddModal() {
+                    this.showModal = true;
+                },
+                closeModal() {
+                    this.showModal = false;
                 },
             },
             mounted() {
                 this.fetchProducts();
             }
         });
-
-        // ✅ Mount Vue AFTER component registration
-        // app.mount('#app');
     </script>
+
+    <style>
+        /* Enhanced custom styles */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Enhanced smooth transitions */
+        button,
+        a,
+        input,
+        .transition-all {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Enhanced custom scrollbar for table */
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-track {
+            background: linear-gradient(to right, #f8fafc, #f1f5f9);
+            border-radius: 10px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: linear-gradient(to right, #cbd5e1, #94a3b8);
+            border-radius: 10px;
+            border: 2px solid #f1f5f9;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to right, #94a3b8, #64748b);
+        }
+
+        /* Backdrop blur support for older browsers */
+        @supports not (backdrop-filter: blur(10px)) {
+            .backdrop-blur-sm {
+                background-color: rgba(0, 0, 0, 0.7);
+            }
+        }
+
+        /* Custom animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
 @endPushOnce
