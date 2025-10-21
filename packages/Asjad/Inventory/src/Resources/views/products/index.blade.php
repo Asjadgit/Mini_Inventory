@@ -164,75 +164,98 @@
                 </table>
             </div>
 
-            <!-- Add Product Modal -->
-            <div v-if="showModal">
-                <<div class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 p-4 transition-opacity duration-300">
-                <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 relative transform transition-all duration-300 scale-100 animate-fadeIn">
-                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
-                        <h2 class="text-2xl font-bold text-gray-900">Add New Product</h2>
-                        <button
-                            @click="closeModal"
-                            class="text-gray-400 hover:text-gray-600 text-2xl transition-colors duration-300 transform hover:scale-110 cursor-pointer"
-                        >
-                            ×
-                        </button>
+                <!-- Add Product Modal -->
+                <div v-show="showModal">
+                    <div class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 p-4">
+                        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 relative transform transition-all duration-300 scale-100">
+                            <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+                                <h2 class="text-2xl font-bold text-gray-900">Add New Product</h2>
+                                <button
+                                    @click="closeModal"
+                                    class="text-gray-400 hover:text-gray-600 text-2xl transition-colors duration-300 transform hover:scale-110 cursor-pointer"
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+                            <form @submit="FormSubmit">
+                                <div class="space-y-5">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Product Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            v-model.trim="formValues.name"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
+                                            placeholder="Enter product name"
+                                            required
+                                        >
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Stock Quantity</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            name="stock"
+                                            v-model.number="formValues.stock"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
+                                            placeholder="Enter stock quantity"
+                                            required
+                                        >
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Price ($)</label>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            step="0.01"
+                                            name="price"
+                                            v-model.number="formValues.price"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
+                                            placeholder="Enter price"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-200">
+                                    <button
+                                        type="button"
+                                        @click="closeModal"
+                                        class="px-6 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 rounded-xl hover:from-gray-300 hover:to-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        :disabled="modalLoading"
+                                        class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                                    >
+                                        <span v-if="modalLoading" class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></span>
+                                        Save Product
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-
-                    <form>
-                        <div class="space-y-5">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Product Name</label>
-                                <input
-                                    type="text"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
-                                    placeholder="Enter product name"
-                                    required
-                                >
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Stock Quantity</label>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
-                                    placeholder="Enter stock quantity"
-                                    required
-                                >
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Price ($)</label>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    step="0.01"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
-                                    placeholder="Enter price"
-                                    required
-                                >
-                            </div>
-                        </div>
-
-                        <div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-200">
-                            <button
-                                type="button"
-                                @click="closeModal"
-                                class="px-6 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 rounded-xl hover:from-gray-300 hover:to-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm"
-                            >
-                                Save Product
-                            </button>
-                        </div>
-                    </form>
                 </div>
+
             </div>
+
+            <!-- Toast Notification -->
+            <div
+                v-if="toast.show"
+                :class="toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'"
+                class="fixed top-6 right-1/2 transform translate-x-1/2 sm:right-6 sm:translate-x-0 text-white px-5 py-3 rounded-xl shadow-lg flex items-center space-x-2 animate-fadeIn z-[9999]"
+            >
+
+                <span v-if="toast.type === 'success'">✅</span>
+                <span v-else>❌</span>
+                <span class="font-medium">@{{ toast.message }}</span>
             </div>
+
 
             <!-- Loading State -->
             <div v-if="loading" class="px-6 py-12 text-center">
@@ -253,12 +276,24 @@
             data() {
                 return {
                     products: [],
-                    loading: false,
+                    loading: false, // for table fetching
+                    modalLoading: false, // for form submit only ✅
                     showModal: false,
+                    formValues: {
+                        name: '',
+                        stock: '',
+                        price: '',
+                    },
+                    toast: {
+                        show: false,
+                        message: '',
+                        type: 'success'
+                    },
                 };
             },
             methods: {
                 async fetchProducts() {
+                    if (this.showModal) return; // Don't refresh when modal is open
                     this.loading = true;
                     try {
                         const response = await fetch('/inventory/products/list');
@@ -309,6 +344,64 @@
                 closeModal() {
                     this.showModal = false;
                 },
+                resetForm() {
+                    this.formValues.name = '';
+                    this.formValues.stock = '';
+                    this.formValues.price = '';
+                },
+                showToast(message, type = 'success') {
+                    this.toast.message = message;
+                    this.toast.type = type;
+                    this.toast.show = true;
+
+                    // Auto-hide after 3 seconds
+                    setTimeout(() => {
+                        this.toast.show = false;
+                    }, 3000);
+                },
+
+                async FormSubmit(event) {
+                    event.preventDefault();
+                    try {
+                        this.modalLoading = true;
+
+                        const response = await fetch('/inventory/products/store', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
+                            },
+                            body: JSON.stringify(this.formValues)
+                        });
+
+                        const result = await response.json();
+
+                        if (!response.ok) {
+                            console.error('Error:', result);
+                            alert(result.message || 'Failed to save product.');
+                            return;
+                        }
+
+                        // ✅ Fetch latest products from server
+                        await this.fetchProducts();
+
+                        // Update stats
+                        this.updateStats();
+
+                        // Reset and close modal
+                        this.resetForm();
+                        // 👇 small delay before closing modal to avoid flash
+                        setTimeout(() => this.closeModal(), 150);
+
+                        // ✅ Success toast
+                        this.showToast('Product added successfully! 🎉', 'success');
+                    } catch (error) {
+                        console.error('❌ Failed to submit form:', error);
+                    } finally {
+                        this.modalLoading = false;
+                    }
+                }
             },
             mounted() {
                 this.fetchProducts();
@@ -380,6 +473,28 @@
 
         .animate-fadeIn {
             animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes slideDownFade {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            10%,
+            90% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: slideDownFade 3s ease-in-out;
         }
     </style>
 @endPushOnce
