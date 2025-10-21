@@ -242,14 +242,11 @@
                     </div>
                 </div>
 
-            </div>
-
             <!-- Toast Notification -->
             <div
                 v-if="toast.show"
                 :class="toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'"
-                class="fixed top-6 right-1/2 transform translate-x-1/2 sm:right-6 sm:translate-x-0 text-white px-5 py-3 rounded-xl shadow-lg flex items-center space-x-2 animate-fadeIn z-[9999]"
-            >
+                class="fixed top-6 right-1/2 transform translate-x-1/2 sm:right-6 sm:translate-x-0 text-white px-5 py-3 rounded-xl shadow-lg flex items-center space-x-2 animate-fadeIn z-[9999]">
 
                 <span v-if="toast.type === 'success'">✅</span>
                 <span v-else>❌</span>
