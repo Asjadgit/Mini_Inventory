@@ -35,7 +35,7 @@
 <!-- Register component and mount Vue -->
 <script type="module">
     // Register component
-    app.component('v-product-list', {
+     window.app.component('v-product-list', {
         template: '#v-product-list-template',
         data() {
             return { products: [] };
@@ -54,6 +54,6 @@
     });
 
     // ✅ Mount Vue AFTER component registration
-    app.mount('#app');
+    // app.mount('#app');
 </script>
 @endPushOnce
