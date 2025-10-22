@@ -2,65 +2,62 @@
 
 @section('content')
     <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Enhanced Page Header -->
+        <!-- Professional Page Header -->
         <div class="mb-10">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                 <div class="mb-4 sm:mb-0">
                     <div class="flex items-center mb-3">
-                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-2xl shadow-lg mr-4">
+                        <div class="bg-gradient-to-br from-blue-600 to-blue-700 p-4 rounded-2xl shadow-lg mr-5">
                             <span class="text-white text-2xl">📦</span>
                         </div>
                         <div>
-                            <h1 class="text-3xl font-bold text-gray-900">Product Inventory</h1>
-                            <p class="text-gray-600 text-lg mt-1">Manage and track your product inventory in real-time</p>
+                            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Product Inventory</h1>
+                            <p class="text-gray-600 text-lg mt-2">Manage and track your product inventory in real-time</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Enhanced Stats Overview -->
+        <!-- Professional Stats Overview -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div
-                class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-7 transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div class="flex items-center">
                     <div class="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-4 mr-5 shadow-sm">
                         <span class="text-blue-600 text-2xl">📦</span>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-gray-500 mb-1">Total Products</p>
-                        <p class="text-2xl font-bold text-gray-900" id="total-products">-</p>
+                        <p class="text-sm font-medium text-gray-500 mb-2 tracking-wide">Total Products</p>
+                        <p class="text-2xl font-bold text-gray-900 tracking-tight" id="total-products">-</p>
                     </div>
                 </div>
             </div>
-            <div
-                class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-7 transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div class="flex items-center">
                     <div class="rounded-xl bg-gradient-to-br from-green-50 to-green-100 p-4 mr-5 shadow-sm">
                         <span class="text-green-600 text-2xl">🔄</span>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-gray-500 mb-1">In Stock</p>
-                        <p class="text-2xl font-bold text-gray-900" id="in-stock">-</p>
+                        <p class="text-sm font-medium text-gray-500 mb-2 tracking-wide">In Stock</p>
+                        <p class="text-2xl font-bold text-gray-900 tracking-tight" id="in-stock">-</p>
                     </div>
                 </div>
             </div>
-            <div
-                class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-7 transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div class="flex items-center">
                     <div class="rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-4 mr-5 shadow-sm">
                         <span class="text-amber-600 text-2xl">💰</span>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-gray-500 mb-1">Total Value</p>
-                        <p class="text-2xl font-bold text-gray-900" id="total-value">-</p>
+                        <p class="text-sm font-medium text-gray-500 mb-2 tracking-wide">Total Value</p>
+                        <p class="text-2xl font-bold text-gray-900 tracking-tight" id="total-value">-</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Enhanced Product List Component -->
-        <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
+        <!-- Professional Product List Component -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
             <v-product-list></v-product-list>
         </div>
     </div>
@@ -70,18 +67,18 @@
     <!-- Inline Vue template -->
     <script type="text/x-template" id="v-product-list-template">
         <div>
-            <!-- Enhanced Table Header with Actions -->
-            <div class="px-7 py-6 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
+            <!-- Professional Table Header with Actions -->
+            <div class="px-8 py-6 border-b border-gray-200 bg-white">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h3 class="text-xl font-bold text-gray-900">Product List</h3>
-                        <p class="text-gray-500 text-sm mt-1">All your inventory items in one place</p>
+                        <h3 class="text-xl font-bold text-gray-900 tracking-tight">Product List</h3>
+                        <p class="text-gray-500 text-sm mt-2">All your inventory items in one place</p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-3">
                         <button
                             @click="fetchProducts"
                             :disabled="loading"
-                            class="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-sm"
+                            class="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-sm"
                         >
                             <span v-if="loading" class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-gray-500 border-t-transparent mr-2"></span>
                             <span v-else class="mr-2">🔄</span>
@@ -90,7 +87,7 @@
 
                         <button
                             @click="showaddModal"
-                            class="inline-flex items-center justify-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 shadow-sm"
+                            class="inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] shadow-sm"
                         >
                             <span class="mr-2">➕</span>
                             Add Product
@@ -99,48 +96,47 @@
                 </div>
             </div>
 
-            <!-- Enhanced Top Controls -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-7 py-4 border-b border-gray-200 bg-gray-50">
+            <!-- Professional Top Controls -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-8 py-4 border-b border-gray-200 bg-gray-50">
                 <!-- Show entries -->
                 <div class="flex items-center space-x-2">
-                    <span class="text-gray-600 text-sm">Show</span>
+                    <span class="text-gray-600 text-sm font-medium">Show</span>
                     <select
                         v-model.number="pagination.per_page"
                         @change="fetchProducts(1)"
-                        class="px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-200 focus:border-blue-400 text-sm"
+                        class="px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     >
                         <option v-for="n in perPageOptions" :key="n" :value="n">@{{ n }}</option>
                     </select>
-                    <span class="text-gray-600 text-sm">entries</span>
+                    <span class="text-gray-600 text-sm font-medium">entries</span>
                 </div>
             </div>
 
-            <!-- Enhanced Products Table -->
+            <!-- Professional Products Table -->
             <div class="overflow-x-auto">
                 <table class="w-full">
-                    <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-7 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                            <th class="px-8 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Product Name
                             </th>
-                            <th class="px-7 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                            <th class="px-8 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Stock Level
                             </th>
-                            <th class="px-7 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                            <th class="px-8 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Price
                             </th>
-                            <th class="px-7 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                            <th class="px-8 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Status
                             </th>
-
-                            <th class="px-7 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                            <th class="px-8 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         <tr v-if="products.length === 0 && !loading">
-                            <td colspan="4" class="px-7 py-16 text-center">
+                            <td colspan="5" class="px-8 py-16 text-center">
                                 <div class="flex flex-col items-center justify-center">
                                     <div class="text-gray-300 mb-4 text-6xl">📦</div>
                                     <p class="text-gray-500 text-lg font-semibold mb-2">No products found</p>
@@ -151,60 +147,63 @@
                         <tr
                             v-for="p in products"
                             :key="p.id"
-                            class="group transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-white hover:shadow-sm"
+                            class="group transition-all duration-200 hover:bg-blue-50"
                         >
-                            <td class="px-7 py-4 whitespace-nowrap">
+                            <td class="px-8 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-4 shadow-sm">
                                         <span class="text-blue-600 text-sm">📦</span>
                                     </div>
-                                    <div class="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors duration-300">
+                                    <div class="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors duration-200">
                                         @{{ p.name }}
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-7 py-4 whitespace-nowrap text-center">
-                                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all duration-300 transform group-hover:scale-105"
+                            <td class="px-8 py-4 whitespace-nowrap text-center">
+                                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 transform group-hover:scale-105"
                                       :class="getStockLevelClass(p.stock)">
                                     @{{ p.stock }}
                                 </span>
                             </td>
-                            <td class="px-7 py-4 whitespace-nowrap text-center">
-                                <span class="text-sm font-semibold text-gray-900 bg-gradient-to-r from-gray-50 to-white px-3 py-1.5 rounded-lg shadow-sm">
+                            <td class="px-8 py-4 whitespace-nowrap text-center">
+                                <span class="text-sm font-semibold text-gray-900 px-3 py-1.5 rounded-lg">
                                     $@{{ formatPrice(p.price) }}
                                 </span>
                             </td>
-                            <td class="px-7 py-4 whitespace-nowrap text-center">
+                            <td class="px-8 py-4 whitespace-nowrap text-center">
                                 <span
-                                    class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all duration-300 transform group-hover:scale-105"
+                                    class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 transform group-hover:scale-105"
                                     :class="getStatusClass(p.stock)"
                                 >
                                     @{{ getStatusText(p.stock) }}
                                 </span>
                             </td>
-
-                            <td class="px-7 py-4 whitespace-nowrap text-center">
-                                <button
-                                    @click="showaddModal(p)"
-                                    class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 mr-2"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    class="bg-red-600 text-white border-2 px-2 py-2"
-                                    @click="deleteProduct(p.id)"
-                                >
-                                    Delete
-                                </button>
+                            <td class="px-8 py-4 whitespace-nowrap text-center">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <button
+                                        @click="showaddModal(p)"
+                                        class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-105 text-xs font-medium"
+                                    >
+                                        <span class="mr-1">✏️</span>
+                                        Edit
+                                    </button>
+                                    <button
+                                        class="inline-flex items-center px-3 py-1.5 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 transform hover:scale-105 text-xs font-medium"
+                                        @click="deleteProduct(p.id)"
+                                    >
+                                        <span class="mr-1">🗑️</span>
+                                        Delete
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
 
-                <!-- Enhanced Bottom Pagination -->
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-7 py-4 border-t border-gray-200 bg-gray-50">
+                <!-- Professional Bottom Pagination -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-8 py-4 border-t border-gray-200 bg-gray-50">
                     <!-- Showing info -->
-                    <div class="text-gray-600 text-sm">
+                    <div class="text-gray-600 text-sm font-medium">
                         Showing @{{ pagination.from || 0 }} to @{{ pagination.to || 0 }} of @{{ pagination.total }} entries
                     </div>
 
@@ -213,9 +212,9 @@
                         <button
                             @click="fetchProducts(pagination.current_page - 1)"
                             :disabled="pagination.current_page === 1"
-                            class="px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-all text-sm"
+                            class="px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-all duration-200 text-sm font-medium"
                         >
-                            Prev
+                            Previous
                         </button>
 
                         <button
@@ -225,7 +224,7 @@
                             :class="pagination.current_page === page
                                 ? 'bg-blue-600 text-white border-blue-600'
                                 : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
-                            class="px-3 py-2 rounded-lg border transition-all text-sm"
+                            class="px-3 py-2 rounded-lg border transition-all duration-200 text-sm font-medium min-w-[40px]"
                         >
                             @{{ page }}
                         </button>
@@ -233,7 +232,7 @@
                         <button
                             @click="fetchProducts(pagination.current_page + 1)"
                             :disabled="pagination.current_page === pagination.last_page"
-                            class="px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-all text-sm"
+                            class="px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-all duration-200 text-sm font-medium"
                         >
                             Next
                         </button>
@@ -241,15 +240,15 @@
                 </div>
             </div>
 
-            <!-- Enhanced Add Product Modal -->
+            <!-- Professional Add/Edit Product Modal -->
             <div v-if="showModal">
-                <div class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-4">
-                    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 relative transform transition-all duration-300 scale-100">
+                <div class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 p-4">
+                    <div class="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 relative transform transition-all duration-200 scale-100">
                         <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
-                            <h2 class="text-2xl font-bold text-gray-900">Add New Product</h2>
+                            <h2 class="text-2xl font-bold text-gray-900 tracking-tight">@{{ mode === 'create' || formValues.id ? 'Edit Product' : 'Add New Product' }}</h2>
                             <button
                                 @click="closeModal"
-                                class="text-gray-400 hover:text-gray-600 text-2xl transition-colors duration-300 transform hover:scale-110 cursor-pointer"
+                                class="text-gray-400 hover:text-gray-600 text-2xl transition-colors duration-200 transform hover:scale-110 cursor-pointer"
                             >
                                 ×
                             </button>
@@ -268,7 +267,7 @@
                                         type="text"
                                         name="name"
                                         v-model.trim="formValues.name"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-white"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                                         placeholder="Enter product name"
                                         required
                                     >
@@ -281,7 +280,7 @@
                                         min="0"
                                         name="stock"
                                         v-model.number="formValues.stock"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-white"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                                         placeholder="Enter stock quantity"
                                         required
                                     >
@@ -295,7 +294,7 @@
                                         step="0.01"
                                         name="price"
                                         v-model.number="formValues.price"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-white"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                                         placeholder="Enter price"
                                         required
                                     >
@@ -306,17 +305,17 @@
                                 <button
                                     type="button"
                                     @click="closeModal"
-                                    class="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm"
+                                    class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-200 transform hover:scale-105 cursor-pointer font-semibold"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     :disabled="modalLoading"
-                                    class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                                    class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-105 cursor-pointer font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                     <span v-if="modalLoading" class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></span>
-                                    Save Product
+                                    @{{ mode === 'create' ? 'Save Product' : 'Update Product' }}
                                 </button>
                             </div>
                         </form>
@@ -324,21 +323,21 @@
                 </div>
             </div>
 
-            <!-- Enhanced Toast Notification -->
+            <!-- Professional Toast Notification -->
             <div
                 v-if="toast.show"
-                :class="toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'"
-                class="fixed top-6 right-1/2 transform translate-x-1/2 sm:right-6 sm:translate-x-0 text-white px-5 py-3 rounded-xl shadow-lg flex items-center space-x-2 animate-fadeIn z-[9999]">
+                :class="toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'"
+                class="fixed top-6 right-1/2 transform translate-x-1/2 sm:right-6 sm:translate-x-0 text-white px-5 py-3 rounded-lg shadow-lg flex items-center space-x-2 animate-fadeIn z-[9999] font-medium">
 
                 <span v-if="toast.type === 'success'">✅</span>
                 <span v-else>❌</span>
-                <span class="font-medium">@{{ toast.message }}</span>
+                <span>@{{ toast.message }}</span>
             </div>
 
-            <!-- Enhanced Loading State -->
-            <div v-if="loading" class="px-7 py-12 text-center">
+            <!-- Professional Loading State -->
+            <div v-if="loading" class="px-8 py-12 text-center">
                 <div class="flex flex-col items-center justify-center">
-                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4 shadow-sm"></div>
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4"></div>
                     <p class="text-gray-600 font-semibold">Loading products...</p>
                     <p class="text-gray-400 text-sm mt-1">Please wait while we fetch your inventory</p>
                 </div>
@@ -569,7 +568,7 @@
     </script>
 
     <style>
-        /* Enhanced custom styles */
+        /* Professional custom styles */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -582,32 +581,31 @@
             border: 0;
         }
 
-        /* Enhanced smooth transitions */
+        /* Professional smooth transitions */
         button,
         a,
         input,
         .transition-all {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Enhanced custom scrollbar for table */
+        /* Professional custom scrollbar for table */
         .overflow-x-auto::-webkit-scrollbar {
-            height: 8px;
+            height: 6px;
         }
 
         .overflow-x-auto::-webkit-scrollbar-track {
-            background: linear-gradient(to right, #f8fafc, #f1f5f9);
-            border-radius: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
         }
 
         .overflow-x-auto::-webkit-scrollbar-thumb {
-            background: linear-gradient(to right, #cbd5e1, #94a3b8);
-            border-radius: 10px;
-            border: 2px solid #f1f5f9;
+            background: #cbd5e1;
+            border-radius: 8px;
         }
 
         .overflow-x-auto::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to right, #94a3b8, #64748b);
+            background: #94a3b8;
         }
 
         /* Backdrop blur support for older browsers */
@@ -617,11 +615,11 @@
             }
         }
 
-        /* Custom animations */
+        /* Professional animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-8px);
             }
 
             to {
@@ -631,13 +629,13 @@
         }
 
         .animate-fadeIn {
-            animation: fadeIn 0.3s ease-out;
+            animation: fadeIn 0.2s ease-out;
         }
 
         @keyframes slideDownFade {
             0% {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-16px);
             }
 
             10%,
@@ -648,7 +646,7 @@
 
             100% {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-16px);
             }
         }
 
