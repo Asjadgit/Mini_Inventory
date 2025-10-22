@@ -2,62 +2,65 @@
 
 @section('content')
     <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Page Header -->
-        <div class="mb-8">
+        <!-- Enhanced Page Header -->
+        <div class="mb-10">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                 <div class="mb-4 sm:mb-0">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-2 flex items-center">
-                        <span class="mr-3">🧾</span>
-                        Product Inventory
-                    </h1>
-                    <p class="text-gray-600 text-lg">Manage and track your product inventory in real-time</p>
+                    <div class="flex items-center mb-3">
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-2xl shadow-lg mr-4">
+                            <span class="text-white text-2xl">📦</span>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">Product Inventory</h1>
+                            <p class="text-gray-600 text-lg mt-1">Manage and track your product inventory in real-time</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Stats Overview -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Enhanced Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div
-                class="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-sm border border-blue-100 p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-md">
+                class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <div class="flex items-center">
-                    <div class="rounded-full bg-blue-100 p-3 mr-4 shadow-inner">
-                        <span class="text-blue-600 text-xl">📦</span>
+                    <div class="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-4 mr-5 shadow-sm">
+                        <span class="text-blue-600 text-2xl">📦</span>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-gray-600 mb-1">Total Products</p>
+                        <p class="text-sm font-medium text-gray-500 mb-1">Total Products</p>
                         <p class="text-2xl font-bold text-gray-900" id="total-products">-</p>
                     </div>
                 </div>
             </div>
             <div
-                class="bg-gradient-to-br from-white to-green-50 rounded-xl shadow-sm border border-green-100 p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-md">
+                class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <div class="flex items-center">
-                    <div class="rounded-full bg-green-100 p-3 mr-4 shadow-inner">
-                        <span class="text-green-600 text-xl">🔄</span>
+                    <div class="rounded-xl bg-gradient-to-br from-green-50 to-green-100 p-4 mr-5 shadow-sm">
+                        <span class="text-green-600 text-2xl">🔄</span>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-gray-600 mb-1">In Stock</p>
+                        <p class="text-sm font-medium text-gray-500 mb-1">In Stock</p>
                         <p class="text-2xl font-bold text-gray-900" id="in-stock">-</p>
                     </div>
                 </div>
             </div>
             <div
-                class="bg-gradient-to-br from-white to-orange-50 rounded-xl shadow-sm border border-orange-100 p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-md">
+                class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 <div class="flex items-center">
-                    <div class="rounded-full bg-orange-100 p-3 mr-4 shadow-inner">
-                        <span class="text-orange-600 text-xl">💰</span>
+                    <div class="rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-4 mr-5 shadow-sm">
+                        <span class="text-amber-600 text-2xl">💰</span>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-gray-600 mb-1">Total Value</p>
+                        <p class="text-sm font-medium text-gray-500 mb-1">Total Value</p>
                         <p class="text-2xl font-bold text-gray-900" id="total-value">-</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Product List Component -->
-        <div
-            class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+        <!-- Enhanced Product List Component -->
+        <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
             <v-product-list></v-product-list>
         </div>
     </div>
@@ -67,27 +70,27 @@
     <!-- Inline Vue template -->
     <script type="text/x-template" id="v-product-list-template">
         <div>
-            <!-- Table Header with Actions -->
-            <div class="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
+            <!-- Enhanced Table Header with Actions -->
+            <div class="px-7 py-6 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h3 class="text-xl font-semibold text-gray-900">Product List</h3>
+                        <h3 class="text-xl font-bold text-gray-900">Product List</h3>
                         <p class="text-gray-500 text-sm mt-1">All your inventory items in one place</p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-3">
                         <button
                             @click="fetchProducts"
                             :disabled="loading"
-                            class="inline-flex items-center justify-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-sm"
+                            class="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-sm"
                         >
-                            <span v-if="loading" class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></span>
+                            <span v-if="loading" class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-gray-500 border-t-transparent mr-2"></span>
                             <span v-else class="mr-2">🔄</span>
                             Refresh
                         </button>
 
                         <button
                             @click="showaddModal"
-                            class="inline-flex items-center justify-center px-5 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-4 focus:ring-green-200 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 shadow-sm"
+                            class="inline-flex items-center justify-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 shadow-sm"
                         >
                             <span class="mr-2">➕</span>
                             Add Product
@@ -95,44 +98,45 @@
                     </div>
                 </div>
             </div>
-            <!-- Top Controls -->
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
-                    <!-- Show entries -->
-                    <div class="flex items-center space-x-2">
-                        <span class="text-gray-600">Show</span>
-                        <select
-                            v-model.number="pagination.per_page"
-                            @change="fetchProducts(1)"
-                            class="px-3 py-1 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-200 focus:border-blue-400"
-                        >
-                            <option v-for="n in perPageOptions" :key="n" :value="n">@{{ n }}</option>
-                        </select>
-                        <span class="text-gray-600">entries</span>
-                    </div>
-                </div>
 
-            <!-- Products Table -->
+            <!-- Enhanced Top Controls -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-7 py-4 border-b border-gray-200 bg-gray-50">
+                <!-- Show entries -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-gray-600 text-sm">Show</span>
+                    <select
+                        v-model.number="pagination.per_page"
+                        @change="fetchProducts(1)"
+                        class="px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-200 focus:border-blue-400 text-sm"
+                    >
+                        <option v-for="n in perPageOptions" :key="n" :value="n">@{{ n }}</option>
+                    </select>
+                    <span class="text-gray-600 text-sm">entries</span>
+                </div>
+            </div>
+
+            <!-- Enhanced Products Table -->
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
                         <tr>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                            <th class="px-7 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Product Name
                             </th>
-                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                            <th class="px-7 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Stock Level
                             </th>
-                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                            <th class="px-7 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Price
                             </th>
-                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                            <th class="px-7 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Status
                             </th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         <tr v-if="products.length === 0 && !loading">
-                            <td colspan="4" class="px-6 py-12 text-center">
+                            <td colspan="4" class="px-7 py-16 text-center">
                                 <div class="flex flex-col items-center justify-center">
                                     <div class="text-gray-300 mb-4 text-6xl">📦</div>
                                     <p class="text-gray-500 text-lg font-semibold mb-2">No products found</p>
@@ -145,9 +149,9 @@
                             :key="p.id"
                             class="group transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-white hover:shadow-sm"
                         >
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-7 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-4 shadow-inner">
+                                    <div class="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-4 shadow-sm">
                                         <span class="text-blue-600 text-sm">📦</span>
                                     </div>
                                     <div class="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors duration-300">
@@ -155,20 +159,20 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm transition-all duration-300 transform group-hover:scale-105"
+                            <td class="px-7 py-4 whitespace-nowrap text-center">
+                                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all duration-300 transform group-hover:scale-105"
                                       :class="getStockLevelClass(p.stock)">
                                     @{{ p.stock }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span class="text-sm font-semibold text-gray-900 bg-gradient-to-r from-gray-50 to-white px-3 py-1.5 rounded-lg shadow-inner">
+                            <td class="px-7 py-4 whitespace-nowrap text-center">
+                                <span class="text-sm font-semibold text-gray-900 bg-gradient-to-r from-gray-50 to-white px-3 py-1.5 rounded-lg shadow-sm">
                                     $@{{ formatPrice(p.price) }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <td class="px-7 py-4 whitespace-nowrap text-center">
                                 <span
-                                    class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm transition-all duration-300 transform group-hover:scale-105"
+                                    class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all duration-300 transform group-hover:scale-105"
                                     :class="getStatusClass(p.stock)"
                                 >
                                     @{{ getStatusText(p.stock) }}
@@ -177,126 +181,126 @@
                         </tr>
                     </tbody>
                 </table>
-                <!-- Bottom Pagination -->
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-6 py-4 border-t border-gray-200 bg-gray-50">
-                        <!-- Showing info -->
-                        <div class="text-gray-600 text-sm">
-                            Showing @{{ pagination.from || 0 }} to @{{ pagination.to || 0 }} of @{{ pagination.total }} entries
-                        </div>
 
-                        <!-- Pagination Buttons -->
-                        <div class="flex items-center space-x-1 mt-2 sm:mt-0">
-                            <button
-                                @click="fetchProducts(pagination.current_page - 1)"
-                                :disabled="pagination.current_page === 1"
-                                class="px-3 py-1 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50 transition-all"
-                            >
-                                Prev
-                            </button>
-
-                            <button
-                                v-for="page in visiblePages()"
-                                :key="page"
-                                @click="fetchProducts(page)"
-                                :class="pagination.current_page === page
-                                    ? 'bg-blue-600 text-white'
-                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
-                                class="px-3 py-1 rounded-lg transition-all"
-                            >
-                                @{{ page }}
-                            </button>
-
-                            <button
-                                @click="fetchProducts(pagination.current_page + 1)"
-                                :disabled="pagination.current_page === pagination.last_page"
-                                class="px-3 py-1 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50 transition-all"
-                            >
-                                Next
-                            </button>
-                        </div>
+                <!-- Enhanced Bottom Pagination -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-7 py-4 border-t border-gray-200 bg-gray-50">
+                    <!-- Showing info -->
+                    <div class="text-gray-600 text-sm">
+                        Showing @{{ pagination.from || 0 }} to @{{ pagination.to || 0 }} of @{{ pagination.total }} entries
                     </div>
 
-            </div>
+                    <!-- Pagination Buttons -->
+                    <div class="flex items-center space-x-1 mt-2 sm:mt-0">
+                        <button
+                            @click="fetchProducts(pagination.current_page - 1)"
+                            :disabled="pagination.current_page === 1"
+                            class="px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-all text-sm"
+                        >
+                            Prev
+                        </button>
 
-                <!-- Add Product Modal -->
-                <div v-show="showModal">
-                    <div class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 p-4">
-                        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 relative transform transition-all duration-300 scale-100">
-                            <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
-                                <h2 class="text-2xl font-bold text-gray-900">Add New Product</h2>
-                                <button
-                                    @click="closeModal"
-                                    class="text-gray-400 hover:text-gray-600 text-2xl transition-colors duration-300 transform hover:scale-110 cursor-pointer"
-                                >
-                                    ×
-                                </button>
-                            </div>
+                        <button
+                            v-for="page in visiblePages()"
+                            :key="page"
+                            @click="fetchProducts(page)"
+                            :class="pagination.current_page === page
+                                ? 'bg-blue-600 text-white border-blue-600'
+                                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
+                            class="px-3 py-2 rounded-lg border transition-all text-sm"
+                        >
+                            @{{ page }}
+                        </button>
 
-                            <form @submit="FormSubmit">
-                                <div class="space-y-5">
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Product Name</label>
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            v-model.trim="formValues.name"
-                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
-                                            placeholder="Enter product name"
-                                            required
-                                        >
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Stock Quantity</label>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            name="stock"
-                                            v-model.number="formValues.stock"
-                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
-                                            placeholder="Enter stock quantity"
-                                            required
-                                        >
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-3">Price ($)</label>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            step="0.01"
-                                            name="price"
-                                            v-model.number="formValues.price"
-                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-gray-50 focus:bg-white"
-                                            placeholder="Enter price"
-                                            required
-                                        >
-                                    </div>
-                                </div>
-
-                                <div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-200">
-                                    <button
-                                        type="button"
-                                        @click="closeModal"
-                                        class="px-6 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 rounded-xl hover:from-gray-300 hover:to-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        :disabled="modalLoading"
-                                        class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
-                                    >
-                                        <span v-if="modalLoading" class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></span>
-                                        Save Product
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                        <button
+                            @click="fetchProducts(pagination.current_page + 1)"
+                            :disabled="pagination.current_page === pagination.last_page"
+                            class="px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-all text-sm"
+                        >
+                            Next
+                        </button>
                     </div>
                 </div>
+            </div>
 
-            <!-- Toast Notification -->
+            <!-- Enhanced Add Product Modal -->
+            <div v-show="showModal">
+                <div class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-4">
+                    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 relative transform transition-all duration-300 scale-100">
+                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+                            <h2 class="text-2xl font-bold text-gray-900">Add New Product</h2>
+                            <button
+                                @click="closeModal"
+                                class="text-gray-400 hover:text-gray-600 text-2xl transition-colors duration-300 transform hover:scale-110 cursor-pointer"
+                            >
+                                ×
+                            </button>
+                        </div>
+
+                        <form @submit="FormSubmit">
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Product Name</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        v-model.trim="formValues.name"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-white"
+                                        placeholder="Enter product name"
+                                        required
+                                    >
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Stock Quantity</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        name="stock"
+                                        v-model.number="formValues.stock"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-white"
+                                        placeholder="Enter stock quantity"
+                                        required
+                                    >
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Price ($)</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        step="0.01"
+                                        name="price"
+                                        v-model.number="formValues.price"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-300 bg-white"
+                                        placeholder="Enter price"
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-200">
+                                <button
+                                    type="button"
+                                    @click="closeModal"
+                                    class="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    :disabled="modalLoading"
+                                    class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-300 transform hover:scale-105 cursor-pointer font-semibold shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                                >
+                                    <span v-if="modalLoading" class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></span>
+                                    Save Product
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Toast Notification -->
             <div
                 v-if="toast.show"
                 :class="toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'"
@@ -307,11 +311,10 @@
                 <span class="font-medium">@{{ toast.message }}</span>
             </div>
 
-
-            <!-- Loading State -->
-            <div v-if="loading" class="px-6 py-12 text-center">
+            <!-- Enhanced Loading State -->
+            <div v-if="loading" class="px-7 py-12 text-center">
                 <div class="flex flex-col items-center justify-center">
-                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4 shadow-inner"></div>
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600 mb-4 shadow-sm"></div>
                     <p class="text-gray-600 font-semibold">Loading products...</p>
                     <p class="text-gray-400 text-sm mt-1">Please wait while we fetch your inventory</p>
                 </div>
@@ -348,7 +351,7 @@
                         from: 0,
                         to: 0
                     },
-                    perPageOptions: [10, 20,50, 100],
+                    perPageOptions: [10, 20, 50, 100],
                 };
             },
             methods: {
@@ -465,8 +468,9 @@
                             return;
                         }
 
-                        // ✅ Fetch latest products from server
-                        await this.fetchProducts();
+                        // ✅ Fetch first page to show new product on top
+                        this.pagination.current_page = 1;
+                        await this.fetchProducts(1);
 
                         // Update stats
                         this.updateStats();
