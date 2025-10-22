@@ -132,6 +132,10 @@
                             <th class="px-7 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Status
                             </th>
+
+                            <th class="px-7 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -177,6 +181,15 @@
                                 >
                                     @{{ getStatusText(p.stock) }}
                                 </span>
+                            </td>
+
+                            <td class="px-7 py-4 whitespace-nowrap text-center">
+                                <p>Edit</p>
+                                <button class="bg-red-600 text-white border-2 px-2 py-2"
+                                    @click="deleteProduct(p.id)"
+                                >
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -487,7 +500,29 @@
                     } finally {
                         this.modalLoading = false;
                     }
-                }
+                },
+                async deleteProduct(id) {
+                    if (!confirm('Are you sure to delete that record ?')) return;
+                    try {
+                        const response = await fetch(`/inventory/products/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content')
+                            }
+                        });
+
+                        if (!response.ok) throw new Error("Failed to delete");
+
+                        // Remove from local products list for instant UI update
+                        this.products = this.products.filter(p => p.id !== id);
+                        this.updateStats();
+                        this.showToast('Product deleted successfully!', 'success');
+                    } catch (err) {
+                        console.error(err);
+                        this.showToast('Failed to delete product', 'error');
+                    }
+                },
             },
             mounted() {
                 this.fetchProducts();

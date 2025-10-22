@@ -35,4 +35,17 @@ class ProductController extends Controller
             'product' => $product
         ], 201);
     }
+
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+        try {
+           $product->delete();
+           return response()->json([
+            'message' => 'Product deleted successfully!',
+        ], 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
 }
