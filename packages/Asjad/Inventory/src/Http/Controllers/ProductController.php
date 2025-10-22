@@ -13,9 +13,11 @@ class ProductController extends Controller
         return view('inventory::products.index');
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        return response()->json(Product::orderBy('id', 'desc')->get());
+        $perPage = $request->get('per_page', 10);
+        $products = Product::orderBy('id', 'desc')->paginate($perPage);
+        return response()->json($products);
     }
 
     public function store(Request $request)

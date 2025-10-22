@@ -95,6 +95,21 @@
                     </div>
                 </div>
             </div>
+            <!-- Top Controls -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
+                    <!-- Show entries -->
+                    <div class="flex items-center space-x-2">
+                        <span class="text-gray-600">Show</span>
+                        <select
+                            v-model.number="pagination.per_page"
+                            @change="fetchProducts(1)"
+                            class="px-3 py-1 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-200 focus:border-blue-400"
+                        >
+                            <option v-for="n in perPageOptions" :key="n" :value="n">@{{ n }}</option>
+                        </select>
+                        <span class="text-gray-600">entries</span>
+                    </div>
+                </div>
 
             <!-- Products Table -->
             <div class="overflow-x-auto">
@@ -162,6 +177,45 @@
                         </tr>
                     </tbody>
                 </table>
+                <!-- Bottom Pagination -->
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-6 py-4 border-t border-gray-200 bg-gray-50">
+                        <!-- Showing info -->
+                        <div class="text-gray-600 text-sm">
+                            Showing @{{ pagination.from || 0 }} to @{{ pagination.to || 0 }} of @{{ pagination.total }} entries
+                        </div>
+
+                        <!-- Pagination Buttons -->
+                        <div class="flex items-center space-x-1 mt-2 sm:mt-0">
+                            <button
+                                @click="fetchProducts(pagination.current_page - 1)"
+                                :disabled="pagination.current_page === 1"
+                                class="px-3 py-1 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50 transition-all"
+                            >
+                                Prev
+                            </button>
+
+                            <button
+                                v-for="page in visiblePages()"
+                                :key="page"
+                                @click="fetchProducts(page)"
+                                :class="pagination.current_page === page
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                                class="px-3 py-1 rounded-lg transition-all"
+                            >
+                                @{{ page }}
+                            </button>
+
+                            <button
+                                @click="fetchProducts(pagination.current_page + 1)"
+                                :disabled="pagination.current_page === pagination.last_page"
+                                class="px-3 py-1 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50 transition-all"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+
             </div>
 
                 <!-- Add Product Modal -->
@@ -286,16 +340,33 @@
                         message: '',
                         type: 'success'
                     },
+                    pagination: {
+                        current_page: 1,
+                        last_page: 1,
+                        per_page: 10,
+                        total: 0,
+                        from: 0,
+                        to: 0
+                    },
+                    perPageOptions: [10, 20,50, 100],
                 };
             },
             methods: {
-                async fetchProducts() {
+                async fetchProducts(page = 1) {
                     if (this.showModal) return; // Don't refresh when modal is open
                     this.loading = true;
                     try {
-                        const response = await fetch('/inventory/products/list');
+                        const response = await fetch(
+                            `/inventory/products/list?page=${page}&per_page=${this.pagination.per_page}`
+                        );
                         const data = await response.json();
-                        this.products = data ?? [];
+                        this.products = data.data ?? [];
+
+                        this.pagination.current_page = data.current_page;
+                        this.pagination.last_page = data.last_page;
+                        this.pagination.total = data.total;
+                        this.pagination.from = data.from;
+                        this.pagination.to = data.to;
                         this.updateStats();
                     } catch (error) {
                         console.error('Failed to fetch products:', error);
@@ -355,6 +426,20 @@
                     setTimeout(() => {
                         this.toast.show = false;
                     }, 3000);
+                },
+                visiblePages() {
+                    const total = this.pagination.last_page;
+                    const current = this.pagination.current_page;
+                    const delta = 2;
+                    const range = [];
+
+                    for (let i = Math.max(1, current - delta); i <= Math.min(total, current + delta); i++) {
+                        range.push(i);
+                    }
+
+                    if (range[0] > 1) range.unshift('...');
+                    if (range[range.length - 1] < total) range.push('...');
+                    return range;
                 },
 
                 async FormSubmit(event) {
@@ -492,6 +577,14 @@
 
         .animate-fadeIn {
             animation: slideDownFade 3s ease-in-out;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        button[disabled] {
+            cursor: not-allowed;
         }
     </style>
 @endPushOnce
