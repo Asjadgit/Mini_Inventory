@@ -6,5 +6,7 @@ Route::prefix('inventory')->group(function () {
     Route::get('products', [ProductController::class, 'index']);
     Route::get('products/list', [ProductController::class, 'list']);
     Route::post('products/store', [ProductController::class, 'store']);
+    Route::get('edit/product/{product}', [ProductController::class, 'edit']);
+    Route::put('update/product/{product}', [ProductController::class, 'update']);
     Route::delete('products/{product}', [ProductController::class, 'destroy']);
 });

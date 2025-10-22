@@ -184,8 +184,14 @@
                             </td>
 
                             <td class="px-7 py-4 whitespace-nowrap text-center">
-                                <p>Edit</p>
-                                <button class="bg-red-600 text-white border-2 px-2 py-2"
+                                <button
+                                    @click="showaddModal(p)"
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 mr-2"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    class="bg-red-600 text-white border-2 px-2 py-2"
                                     @click="deleteProduct(p.id)"
                                 >
                                     Delete
@@ -236,7 +242,7 @@
             </div>
 
             <!-- Enhanced Add Product Modal -->
-            <div v-show="showModal">
+            <div v-if="showModal">
                 <div class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-4">
                     <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 relative transform transition-all duration-300 scale-100">
                         <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
@@ -252,6 +258,11 @@
                         <form @submit="FormSubmit">
                             <div class="space-y-5">
                                 <div>
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        v-model.trim="formValues.id"
+                                    >
                                     <label class="block text-sm font-semibold text-gray-700 mb-2">Product Name</label>
                                     <input
                                         type="text"
@@ -346,7 +357,9 @@
                     loading: false, // for table fetching
                     modalLoading: false, // for form submit only ✅
                     showModal: false,
+                    mode: 'create', // 'create' or 'edit'
                     formValues: {
+                        id: '',
                         name: '',
                         stock: '',
                         price: '',
@@ -422,13 +435,26 @@
                     document.getElementById('in-stock').textContent = inStock;
                     document.getElementById('total-value').textContent = '$' + totalValue.toFixed(2);
                 },
-                showaddModal() {
+                showaddModal(product = null) {
+                    if (product) {
+                        // Edit mode
+                        this.mode = 'edit';
+                        this.formValues.id = product.id;
+                        this.formValues.name = product.name;
+                        this.formValues.stock = product.stock;
+                        this.formValues.price = product.price;
+                    } else {
+                        // Create mode
+                        this.mode = 'create';
+                        this.resetForm();
+                    }
                     this.showModal = true;
                 },
                 closeModal() {
                     this.showModal = false;
                 },
                 resetForm() {
+                    this.formValues.id = null; // add this
                     this.formValues.name = '';
                     this.formValues.stock = '';
                     this.formValues.price = '';
@@ -463,8 +489,15 @@
                     try {
                         this.modalLoading = true;
 
-                        const response = await fetch('/inventory/products/store', {
-                            method: 'POST',
+                        const isCreate = this.mode === 'create' || !this.formValues.id;
+                        const url = isCreate ?
+                            '/inventory/products/store' :
+                            `/inventory/update/product/${this.formValues.id}`;
+                        const method = isCreate ? 'POST' : 'PUT';
+
+
+                        const response = await fetch(url, {
+                            method,
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
@@ -481,20 +514,25 @@
                             return;
                         }
 
-                        // ✅ Fetch first page to show new product on top
-                        this.pagination.current_page = 1;
-                        await this.fetchProducts(1);
+                        // Refresh products
+                        if (this.mode === 'create') {
+                            // Add new product to top of array
+                            this.products.unshift(result.product); // use result.product
+                        } else {
+                            // Find the product and update in-place
+                            const index = this.products.findIndex(p => p.id === this.formValues.id);
+                            if (index !== -1) {
+                                this.products[index] = result.product; // use result.product
+                            }
+                        }
 
-                        // Update stats
                         this.updateStats();
-
-                        // Reset and close modal
                         this.resetForm();
-                        // 👇 small delay before closing modal to avoid flash
                         setTimeout(() => this.closeModal(), 150);
+                        this.showToast(
+                            `Product ${this.mode === 'create' ? 'added' : 'updated'} successfully! 🎉`,
+                            'success');
 
-                        // ✅ Success toast
-                        this.showToast('Product added successfully! 🎉', 'success');
                     } catch (error) {
                         console.error('❌ Failed to submit form:', error);
                     } finally {

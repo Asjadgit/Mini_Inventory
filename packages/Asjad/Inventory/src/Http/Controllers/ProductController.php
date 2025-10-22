@@ -36,6 +36,39 @@ class ProductController extends Controller
         ], 201);
     }
 
+    public function edit($id)
+    {
+        $product = Product::find($id);
+        try {
+           return response()->json([
+            'product' => $product,
+        ], 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
+
+    public function update(Request $request,$id)
+    {
+        $product = Product::find($id);
+        try {
+            $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'stock' => 'required|integer|min:0',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        $product->update($validated);
+
+        return response()->json([
+            'message' => 'Product updated successfully!',
+            'product' => $product
+        ], 201);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
+
     public function destroy($id)
     {
         $product = Product::find($id);
