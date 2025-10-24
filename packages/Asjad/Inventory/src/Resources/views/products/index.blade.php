@@ -79,6 +79,14 @@
                     </div>
                     <div class="flex flex-col sm:flex-row gap-3">
                         <button
+                            @click="deleteSelected"
+                            :disabled="selectedProducts.length === 0"
+                            class="inline-flex items-center px-5 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                        >
+                            🗑️ Delete Selected (@{{ selectedProducts.length }})
+                        </button>
+
+                        <button
                             @click="fetchProducts"
                             :disabled="loading"
                             class="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-sm"
@@ -127,6 +135,14 @@
                 <table class="w-full">
                     <thead class="bg-gray-50">
                         <tr>
+                            <th class="px-8 py-4 text-left border-b border-gray-200">
+                                <input
+                                    type="checkbox"
+                                    v-model="allSelected"
+                                    @change="toggleAllSelection"
+                                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                />
+                            </th>
                             <th class="px-8 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">
                                 Product Name
                             </th>
@@ -159,6 +175,14 @@
                             :key="p.id"
                             class="group transition-all duration-200 hover:bg-blue-50"
                         >
+                            <td class="px-8 py-4">
+                                <input
+                                    type="checkbox"
+                                    :value="p.id"
+                                    v-model="selectedProducts"
+                                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                />
+                            </td>
                             <td class="px-8 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-4 shadow-sm">
@@ -368,6 +392,7 @@
                     showModal: false,
                     mode: 'create', // 'create' or 'edit'
                     searchQuery: '',
+                    selectedProducts: [],
                     formValues: {
                         id: '',
                         name: '',
@@ -389,6 +414,17 @@
                     },
                     perPageOptions: [10, 20, 50, 100],
                 };
+            },
+            computed: {
+                allSelected: {
+                    get() {
+                        return this.selectedProducts.length === this.products.length && this.products
+                            .length > 0;
+                    },
+                    set(value) {
+                        this.selectedProducts = value ? this.products.map(p => p.id) : [];
+                    }
+                }
             },
             methods: {
                 async fetchProducts(page = 1) {
@@ -574,6 +610,38 @@
                         this.showToast('Failed to delete product', 'error');
                     }
                 },
+                toggleAllSelection() {
+                    this.selectedProducts = this.allSelected ? this.products.map(p => p.id) : [];
+                },
+                async deleteSelected() {
+                    if (!confirm(
+                            `Are you sure you want to delete ${this.selectedProducts.length} selected product(s)?`
+                            )) return;
+                    try {
+                        const response = await fetch('/inventory/products/mass-delete', {
+                            method: 'POST', // use POST for mass delete
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
+                            },
+                            body: JSON.stringify({
+                                ids: this.selectedProducts
+                            }),
+                        });
+
+                        if (!response.ok) throw new Error("Failed to delete selected products");
+
+                        // Remove deleted products from local array
+                        this.products = this.products.filter(p => !this.selectedProducts.includes(p.id));
+                        this.selectedProducts = [];
+                        this.updateStats();
+                        this.showToast('Selected products deleted successfully!', 'success');
+                    } catch (err) {
+                        console.error(err);
+                        this.showToast('Failed to delete selected products', 'error');
+                    }
+                }
             },
             mounted() {
                 this.fetchProducts();

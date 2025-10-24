@@ -22,8 +22,8 @@ class ProductController extends Controller
 
         if ($search) {
             $query->where('name', 'like', "%{$search}%")
-            ->orWhere('stock', 'like', "%{$search}%")
-            ->orWhere('price', 'like', "%{$search}%");
+                ->orWhere('stock', 'like', "%{$search}%")
+                ->orWhere('price', 'like', "%{$search}%");
         }
 
         $products = $query->orderBy('id', 'desc')->paginate($perPage);
@@ -91,6 +91,21 @@ class ProductController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
+        }
+    }
+
+    public function massDelete(Request $request)
+    {
+        $ids = $request->get('ids', []);
+        if (empty($ids)) {
+            return response()->json(['message' => 'No products selected'], 400);
+        }
+
+        try {
+            Product::whereIn('id', $ids)->delete();
+            return response()->json(['message' => 'Selected products deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 }
