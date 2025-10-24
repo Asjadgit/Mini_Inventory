@@ -349,7 +349,7 @@
                                     class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-105 cursor-pointer font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                     <span v-if="modalLoading" class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></span>
-                                    @{{ mode === 'create' ? 'Save Product' : 'Update Product' }}
+                                    @{{ mode === 'create' ? 'Update Product' : 'Save Product' }}
                                 </button>
                             </div>
                         </form>
