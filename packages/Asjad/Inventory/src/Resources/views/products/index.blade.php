@@ -21,7 +21,8 @@
 
         <!-- Professional Stats Overview -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-7 transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div
+                class="bg-white rounded-2xl shadow-sm border border-gray-200 p-7 transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div class="flex items-center">
                     <div class="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-4 mr-5 shadow-sm">
                         <span class="text-blue-600 text-2xl">📦</span>
@@ -32,7 +33,8 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-7 transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div
+                class="bg-white rounded-2xl shadow-sm border border-gray-200 p-7 transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div class="flex items-center">
                     <div class="rounded-xl bg-gradient-to-br from-green-50 to-green-100 p-4 mr-5 shadow-sm">
                         <span class="text-green-600 text-2xl">🔄</span>
@@ -43,7 +45,8 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-7 transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div
+                class="bg-white rounded-2xl shadow-sm border border-gray-200 p-7 transform transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div class="flex items-center">
                     <div class="rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-4 mr-5 shadow-sm">
                         <span class="text-amber-600 text-2xl">💰</span>
@@ -109,6 +112,13 @@
                         <option v-for="n in perPageOptions" :key="n" :value="n">@{{ n }}</option>
                     </select>
                     <span class="text-gray-600 text-sm font-medium">entries</span>
+                        <input
+                            type="text"
+                            v-model="searchQuery"
+                            @input="fetchProducts(1)"
+                            placeholder="Search products..."
+                            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        />
                 </div>
             </div>
 
@@ -357,6 +367,7 @@
                     modalLoading: false, // for form submit only ✅
                     showModal: false,
                     mode: 'create', // 'create' or 'edit'
+                    searchQuery: '',
                     formValues: {
                         id: '',
                         name: '',
@@ -381,15 +392,18 @@
             },
             methods: {
                 async fetchProducts(page = 1) {
-                    if (this.showModal) return; // Don't refresh when modal is open
+                    if (this.showModal) return;
                     this.loading = true;
                     try {
-                        const response = await fetch(
-                            `/inventory/products/list?page=${page}&per_page=${this.pagination.per_page}`
-                        );
+                        const params = new URLSearchParams({
+                            page,
+                            per_page: this.pagination.per_page,
+                            search: this.searchQuery, // include search query
+                        });
+                        const response = await fetch(`/inventory/products/list?${params.toString()}`);
                         const data = await response.json();
-                        this.products = data.data ?? [];
 
+                        this.products = data.data ?? [];
                         this.pagination.current_page = data.current_page;
                         this.pagination.last_page = data.last_page;
                         this.pagination.total = data.total;

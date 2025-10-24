@@ -16,9 +16,21 @@ class ProductController extends Controller
     public function list(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $products = Product::orderBy('id', 'desc')->paginate($perPage);
+        $search = $request->get('search');
+
+        $query = Product::query();
+
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%")
+            ->orWhere('stock', 'like', "%{$search}%")
+            ->orWhere('price', 'like', "%{$search}%");
+        }
+
+        $products = $query->orderBy('id', 'desc')->paginate($perPage);
+
         return response()->json($products);
     }
+
 
     public function store(Request $request)
     {
@@ -40,30 +52,30 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         try {
-           return response()->json([
-            'product' => $product,
-        ], 200);
+            return response()->json([
+                'product' => $product,
+            ], 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $product = Product::find($id);
         try {
             $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'stock' => 'required|integer|min:0',
-            'price' => 'required|numeric|min:0',
-        ]);
+                'name' => 'required|string|max:255',
+                'stock' => 'required|integer|min:0',
+                'price' => 'required|numeric|min:0',
+            ]);
 
-        $product->update($validated);
+            $product->update($validated);
 
-        return response()->json([
-            'message' => 'Product updated successfully!',
-            'product' => $product
-        ], 201);
+            return response()->json([
+                'message' => 'Product updated successfully!',
+                'product' => $product
+            ], 201);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
@@ -73,10 +85,10 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         try {
-           $product->delete();
-           return response()->json([
-            'message' => 'Product deleted successfully!',
-        ], 200);
+            $product->delete();
+            return response()->json([
+                'message' => 'Product deleted successfully!',
+            ], 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
