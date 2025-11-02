@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+    depends_on:
+      - mysql
+    networks:
+      - laravel_net
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_server
+    ports:
+      - "8080:80"           # visit http://localhost:8080
+    volumes:
+      - .:/var/www/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - laravel_net
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravelvuehybrid
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "53306:3306"        # same as your .env port to avoid conflict
+    networks:
+      - laravel_net
+
+volumes:
+  mysql_data:
+
+networks:
+  laravel_net:
+    driver: bridge
